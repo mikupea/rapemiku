@@ -136,8 +136,123 @@ h1 .blink {
         right: 18px;
         gap: 12px;
     }
+
+.flip-phone {
+  width: 110px;
+  height: 155px;
+  margin: 25px auto 12px;
+  position: relative;
+  cursor: pointer;
+  perspective: 700px;
+  -webkit-tap-highlight-color: transparent;
 }
+
+.phone-lid {
+  position: absolute;
+  width: 100%;
+  height: 72px;
+  top: 0;
+  left: 0;
+  transform-origin: bottom center;
+  transform: rotateX(0deg);
+  transition: transform 0.65s cubic-bezier(.2,.8,.2,1);
+  transform-style: preserve-3d;
+  z-index: 2;
 }
+
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  background: #080d0e;
+  border: 3px solid #00eaff;
+  border-radius: 9px 9px 3px 3px;
+  box-shadow: inset 0 0 12px #00eaff33;
+  color: #00eaff;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  backface-visibility: hidden;
+}
+
+.screen-sub {
+  font-size: 8px;
+  letter-spacing: 1px;
+}
+
+.phone-base {
+  position: absolute;
+  width: 100%;
+  height: 80px;
+  top: 74px;
+  left: 0;
+  box-sizing: border-box;
+  background: #111719;
+  border: 3px solid #00eaff;
+  border-radius: 3px 3px 12px 12px;
+  padding: 12px 10px 8px;
+  box-shadow: 0 0 12px #00eaff22;
+}
+
+.phone-hinge {
+  position: absolute;
+  height: 5px;
+  width: 45px;
+  background: #00eaff;
+  top: -5px;
+  left: 30px;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  text-align: center;
+  color: #00eaff;
+  font: bold 9px Arial, sans-serif;
+}
+
+.keypad span {
+  background: #080d0e;
+  border: 1px solid #087c85;
+  border-radius: 3px;
+  padding: 2px;
+}
+
+.flip-phone.open .phone-lid {
+  transform: rotateX(-145deg);
+}
+
+.phone-menu {
+  display: none;
+  width: 180px;
+  margin: 12px auto;
+  border: 1px solid #00eaff;
+  padding: 10px;
+  background: #05090a;
+  box-sizing: border-box;
+}
+
+.phone-menu.visible {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.phone-menu a {
+  color: #00eaff;
+  font: bold 11px Arial, sans-serif;
+  text-decoration: none;
+}
+
+.phone-menu a:hover {
+  color: white;
+}
+
   </style>
 </head>
 <body>
@@ -146,8 +261,33 @@ h1 .blink {
     <div class="TITLE">
         <h1>RAPEMIKU<span class="blink">_</span></h1>
     </div>
+      
 
-    <!-- IMAGE PANEL -->
+<div class="flip-phone" id="flipPhone" onclick="togglePhone()">
+  <div class="phone-lid">
+    <div class="phone-screen">
+      <span>MIKURAPE</span>
+      <span class="screen-sub">SELECT MENU</span>
+    </div>
+  </div>
+
+  <div class="phone-base">
+    <div class="phone-hinge"></div>
+    <div class="keypad">
+      <span>1</span><span>2</span><span>3</span>
+      <span>4</span><span>5</span><span>6</span>
+      <span>7</span><span>8</span><span>9</span>
+      <span>*</span><span>0</span><span>#</span>
+    </div>
+  </div>
+</div>
+
+<nav class="phone-menu" id="phoneMenu">
+  <a href="#about">01 / ABOUT</a>
+  <a href="#diary">02 / DIARY</a>
+  <a href="#porn">03 / PORN</a>
+  <a href="#contacts">04 / CONTACTS</a>
+</nav>
     <div class="header-art">
         <img src="UMK.png" alt="">
 
@@ -235,6 +375,15 @@ h1 .blink {
 loadPosts().then(() => {
     placeDecorations();
 });
+    
+function togglePhone() {
+  const phone = document.getElementById("flipPhone");
+  const menu = document.getElementById("phoneMenu");
+
+  phone.classList.toggle("open");
+  menu.classList.toggle("visible");
+}
+
   </script>
 </body>
 </html>
