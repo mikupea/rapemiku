@@ -125,7 +125,6 @@ nav {
   </style>
 </head>
 <body>
-  <div class="decor-layer" id="decor"></div>
   <main class="wrap">
     <header>
     <div class="TITLE">
@@ -207,17 +206,12 @@ nav {
         const imageMarkup = images.length
           ? `<div class="post-images">${images.map(url => `<a href="${escapeHTML(url)}" target="_blank" rel="noopener"><img src="${escapeHTML(url)}" alt="Post attachment" loading="lazy"></a>`).join('')}</div>`
           : '';
-        const stickerMarkup = stickers.length
-          ? `<div class="stickers" aria-label="Stickers">${stickers.map(item => String(item).startsWith('http') ? `<img src="${escapeHTML(item)}" alt="Sticker" loading="lazy">` : escapeHTML(item)).join('')}</div>`
-          : '';
         return `
           <article class="post">
             <div class="date">// ${escapeHTML(formatDate(post.created_at))}</div>
             <div class="post-layout ${images.length ? '' : 'no-images'}">
               <div class="content">${renderContentWithStickers(post.content, stickers)}</div>
-              ${imageMarkup}
-            </div>
-            ${!String(post.content || '').includes(STICKER_MARKER) ? stickerMarkup : ''}
+        
           </article>`;
       }).join('');
     }
