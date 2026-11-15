@@ -81,7 +81,7 @@ h1 .blink {
     width: 44%;
     height: 190px;
     background: transparent;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .header-art img {
@@ -94,8 +94,10 @@ h1 .blink {
 .header-art-text {
     position: absolute;
     bottom: 12px;
-    left: 0;
-    width: 100%;
+    left: 50%;
+    width: max-content;
+    max-width: none;
+    transform: translateX(-50%);
     color: red;
     font-family: "Times New Roman", serif !important;
     font-size: 11px;
