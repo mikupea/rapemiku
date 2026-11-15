@@ -7,7 +7,10 @@
   <title>RAPEMIKU</title>
   <style>
     :root { --bg:#000; --fg:#d8faff; --cyan:#00e5ff; --dim:#6b9ba2; --line:#16434a; }
-    * { box-sizing:border-box; }
+    * {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif !important;
+}
     body {
   margin: 0;
   background: var(--bg);
@@ -63,7 +66,7 @@
         <div class="row"><h2>02 / new entry</h2><button id="logoutBtn" type="button">[ log out ]</button></div>
         <form id="postForm">
           <label for="postContent">write something</label>
-          <textarea id="postContent" maxlength="10000" required placeholder="text goes here"></textarea>
+          <textarea id="postContent" maxlength="10000" required placeholder="It is your God-given, constitutionally protected, 1st amendment right to say the N-word regardless of your race, gender, religion, or sexual orientation."></textarea>
           <button type="submit">[ publish entry ]</button>
         </form>
         <div class="status" id="postStatus"></div>
