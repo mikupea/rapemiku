@@ -140,16 +140,19 @@ h1 .blink {
 
 
 
-    /* Scattered header image collage */
+    /* Scattered header image collage: absolute positioning keeps images
+       out of document flow, so they do not push the page downward. */
     header {
-      min-height: 440px;
-      padding-bottom: 24px;
+      position: relative;
+      min-height: 315px;
+      padding-bottom: 20px;
       isolation: isolate;
+      overflow: visible;
     }
 
     .TITLE {
       position: relative;
-      z-index: 6;
+      z-index: 8;
     }
 
     .header-art {
@@ -157,15 +160,15 @@ h1 .blink {
     }
 
     .header-art-text {
-      z-index: 7;
+      z-index: 9;
     }
 
     .header-collage {
       position: absolute;
-      top: 112px;
+      top: 78px;
       left: 0;
       right: 0;
-      height: 300px;
+      height: 220px;
       z-index: 1;
       pointer-events: none;
     }
@@ -173,81 +176,78 @@ h1 .blink {
     .header-collage img {
       position: absolute;
       display: block;
-      width: auto;
       height: auto;
       object-fit: contain;
-      max-width: 42%;
-      max-height: 190px;
       border: 0;
       filter: drop-shadow(0 0 5px #00e5ff30);
     }
 
-    .collage-one {
-      width: 25%;
-      max-height: 145px;
-      left: 1%;
-      top: 8px;
-      transform: rotate(-9deg);
-      z-index: 2;
-    }
-
+    /* LOSER is deliberately larger and above the other stickers,
+       while remaining underneath the title and red caption. */
     .collage-two {
-      width: 29%;
-      max-height: 175px;
-      left: 24%;
-      top: 42px;
-      transform: rotate(7deg);
-      z-index: 4;
-    }
-
-    .collage-three {
-      width: 24%;
-      max-height: 150px;
-      right: 1%;
-      top: 100px;
-      transform: rotate(8deg);
-      z-index: 3;
-    }
-
-    .collage-four {
-      width: 31%;
-      max-height: 165px;
-      left: 7%;
-      top: 155px;
-      transform: rotate(5deg);
+      width: 55%;
+      max-width: none;
+      max-height: 190px;
+      left: 8%;
+      top: 18px;
+      transform: rotate(4deg);
       z-index: 5;
     }
 
+    .collage-three {
+      width: 25%;
+      max-width: 25%;
+      max-height: 125px;
+      right: 1%;
+      top: 78px;
+      transform: rotate(8deg);
+      z-index: 2;
+    }
+
     .collage-five {
-      width: 26%;
-      max-height: 145px;
-      right: 18%;
-      top: 205px;
+      width: 27%;
+      max-width: 27%;
+      max-height: 125px;
+      right: 16%;
+      top: 135px;
       transform: rotate(-7deg);
-      z-index: 6;
+      z-index: 4;
     }
 
     @media(max-width:520px) {
       header {
-        min-height: 420px;
-        padding-bottom: 20px;
+        min-height: 315px;
+        padding-bottom: 18px;
       }
 
       .header-collage {
-        top: 108px;
-        height: 285px;
+        top: 78px;
+        height: 220px;
       }
 
-      .header-collage img {
-        max-width: 45%;
-        max-height: 145px;
+      .collage-two {
+        width: 62%;
+        max-width: none;
+        max-height: 175px;
+        left: 2%;
+        top: 20px;
       }
 
-      .collage-one { left: 0; top: 8px; width: 29%; }
-      .collage-two { left: 23%; top: 43px; width: 32%; }
-      .collage-three { right: 0; top: 108px; width: 27%; }
-      .collage-four { left: 3%; top: 155px; width: 34%; }
-      .collage-five { right: 12%; top: 205px; width: 30%; }
+      .collage-three {
+        width: 26%;
+        max-width: 26%;
+        max-height: 105px;
+        right: 0;
+        top: 88px;
+      }
+
+      .collage-five {
+        width: 29%;
+        max-width: 29%;
+        max-height: 110px;
+        right: 12%;
+        top: 145px;
+      }
     }
 
   </style>
