@@ -4,11 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#000000">
-  <title>owner access</title>
+  <title>admin</title>
   <style>
     :root { --bg:#000; --fg:#d8faff; --cyan:#00e5ff; --dim:#6b9ba2; --line:#16434a; }
     * { box-sizing:border-box; }
-    body { margin:0; background:var(--bg); color:var(--fg); font:14px/1.7 "Courier New", monospace; }
+    body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 15px/1.8 Arial, Helvetica, sans-serif;
+}
     a { color:var(--cyan); text-decoration:none; }
     a:hover { text-decoration:underline; }
     .wrap { width:min(680px, calc(100% - 32px)); margin:42px auto 70px; }
@@ -36,8 +41,8 @@
 <body>
   <main class="wrap">
     <header>
-      <div class="tag">restricted area // owner only</div>
-      <h1>admin console_</h1>
+      <div class="tag">whats the magic word nigga</div>
+      <h1>admin</h1>
       <div class="tag"><a href="./">← back to public page</a></div>
     </header>
 
@@ -58,7 +63,7 @@
         <div class="row"><h2>02 / new entry</h2><button id="logoutBtn" type="button">[ log out ]</button></div>
         <form id="postForm">
           <label for="postContent">write something</label>
-          <textarea id="postContent" maxlength="10000" required placeholder="type your thoughts here..."></textarea>
+          <textarea id="postContent" maxlength="10000" required placeholder="text goes here"></textarea>
           <button type="submit">[ publish entry ]</button>
         </form>
         <div class="status" id="postStatus"></div>
@@ -68,7 +73,7 @@
         <div id="adminPosts" class="status">loading entries...</div>
       </section>
     </section>
-    <footer>private controls. do not share your password.</footer>
+    <footer>do you feel like davis using protonmail huh nigga huh fuck you</footer>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
