@@ -40,6 +40,25 @@
       .post-images { grid-template-columns:repeat(2, minmax(0, 1fr)); max-width:100%; }
       .post-images img:only-child { aspect-ratio:16/10; }
     }
+.-decor-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 5;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.decor {
+    position: absolute;
+    display: block;
+    object-fit: contain;
+    height: auto;
+    opacity: 0.9;
+    filter: drop-shadow(0 0 3px #00e5ff);
+    pointer-events: none;
+}
   </style>
 </head>
 <body>
@@ -62,7 +81,8 @@
     <h2 class="section-title" id="diary">02 / recent entries</h2>
     <section id="posts" aria-live="polite"><div class="empty">loading entries...</div></section>
 
-    <footer>COPYRIGHT © 2026 IDGAF STEAL THIS </footer>
+    <footer>COPYRIGHT © NO ONE 2026 IDGAF STEAL THIS </footer>
+    <div class="decor-layer" id="decor"></div>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -133,6 +153,59 @@
           </article>`;
       }).join('');
     }
+const decorImages = [
+    "UMK.png",
+    "Jcoro.gif",
+    "XX.webp",
+    "TTT.gif",
+    "PG.gif",
+    "MIKU1.png",
+    "UNS.png"
+];
+
+function placeDecorations() {
+    const layer = document.getElementById("randomDecor");
+    if (!layer) return;
+
+    layer.innerHTML = "";
+
+    const pageHeight = document.documentElement.scrollHeight;
+    const pageWidth = document.documentElement.clientWidth;
+
+    layer.style.height = pageHeight + "px";
+
+    // Number of random decorations
+    const amount = 18;
+
+    for (let i = 0; i < amount; i++) {
+        const img = document.createElement("img");
+
+        img.src = decorImages[
+            Math.floor(Math.random() * decorImages.length)
+        ];
+
+        img.className = "random-decor";
+        img.alt = "";
+
+        const size = 35 + Math.random() * 85;
+
+        img.style.width = size + "px";
+        img.style.top =
+            Math.random() * Math.max(0, pageHeight - size) + "px";
+
+        img.style.left =
+            Math.random() * Math.max(0, pageWidth - size) + "px";
+
+        img.style.transform =
+            `rotate(${Math.random() * 50 - 25}deg)`;
+
+        layer.appendChild(img);
+    }
+}
+
+loadPosts().then(() => {
+    placeDecorations();
+});
     loadPosts();
   </script>
 </body>
