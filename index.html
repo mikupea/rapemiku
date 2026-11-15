@@ -13,7 +13,7 @@
     .wrap { width:min(720px, calc(100% - 32px)); margin:42px auto 70px; }
     header {
     position: relative;
-    border: 1px solid var(--line);
+    border: none;
     padding: 22px;
     min-height: 280px;
     padding-bottom: 65px;
@@ -33,7 +33,21 @@ nav {
     font-size: 12px;
 }
     .topline { color:var(--dim); font-size:11px; letter-spacing:1px; text-transform:uppercase; }
-    h1 { margin:12px 0 4px; color:var(--cyan); font-size:clamp(24px, 6vw, 38px); font-weight:normal; letter-spacing:-2px; }
+    h1 {
+    margin: 12px 0 4px;
+    color: var(--cyan);
+    font-size: clamp(24px, 6vw, 38px);
+    font-weight: 900;
+    letter-spacing: -2px;
+    transform: rotate(-4deg);
+    transform-origin: left center;
+    display: inline-block;
+}
+
+h1 .blink {
+    font-weight: normal;
+    display: inline-block;
+}
     .subtitle { color:var(--dim); margin:0; }
     nav { display:flex; gap:18px; flex-wrap:wrap; margin-top:18px; padding-top:12px; border-top:1px dashed var(--line); font-size:12px; }
     .section-title { margin:28px 0 12px; color:var(--cyan); font-size:12px; font-weight:normal; letter-spacing:2px; text-transform:uppercase; }
@@ -66,8 +80,7 @@ nav {
     right: 20px;
     width: 44%;
     height: 190px;
-    border: 1px solid var(--line);
-    background: #050505;
+    background: transparent;
     overflow: hidden;
 }
 
@@ -80,18 +93,19 @@ nav {
 
 .header-art-text {
     position: absolute;
-    bottom: 8px;
+    bottom: 12px;
     left: 0;
     width: 100%;
     color: red;
     font-family: "Times New Roman", serif !important;
-    font-size: 13px;
-    letter-spacing: 5px;
+    font-size: 11px;
+    letter-spacing: 3px;
     text-align: center;
     white-space: nowrap;
     text-transform: uppercase;
     animation: redblink 0.7s steps(2, start) infinite;
     text-shadow: 0 0 5px red;
+    z-index: 3;
 }
 
 @keyframes redblink {
@@ -141,8 +155,9 @@ nav {
     </div>
 
     <p class="subtitle">  </p>
+</header>
 
-    <h2 class="section-title" id="about">01 / IMPORTANT </h2>
+<h2 class="section-title" id="about">01 / IMPORTANT</h2>
     <p class="intro"> WIP 141126</p>
 
     <h2 class="section-title" id="diary">02 / recent entries</h2>
