@@ -511,12 +511,17 @@ h1 .blink {
           ? `<div class="post-images">${images.map(url => `<a href="${escapeHTML(url)}" target="_blank" rel="noopener"><img src="${escapeHTML(url)}" alt="Post attachment" loading="lazy"></a>`).join('')}</div>`
           : '';
         return `
-          <article class="post">
-            <div class="date">// ${escapeHTML(formatDate(post.created_at))}</div>
-            <div class="post-layout ${images.length ? '' : 'no-images'}">
-              <div class="content">${renderContentWithStickers(post.content, stickers)}</div>
-        
-          </article>`;
+  <article class="post">
+    <div class="date">// ${escapeHTML(formatDate(post.created_at))}</div>
+
+    <div class="post-layout ${images.length ? '' : 'no-images'}">
+      <div class="content">
+        ${renderContentWithStickers(post.content, stickers)}
+      </div>
+
+      ${imageMarkup}
+    </div>
+  </article>`;
       }).join('');
     }
 loadPosts().then(() => {
