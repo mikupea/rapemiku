@@ -11,7 +11,27 @@
     body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.8 Arial, Helvetica, sans-serif; }
     a { color:var(--cyan); text-decoration:none; } a:hover { text-decoration:underline; }
     .wrap { width:min(720px, calc(100% - 32px)); margin:42px auto 70px; }
-    header { border:1px solid var(--line); padding:22px; }
+    header {
+    position: relative;
+    border: 1px solid var(--line);
+    padding: 22px;
+    min-height: 280px;
+    padding-bottom: 65px;
+}
+
+nav {
+    position: absolute;
+    bottom: 18px;
+    left: 22px;
+    right: 22px;
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-top: 0;
+    padding-top: 12px;
+    border-top: 1px dashed var(--line);
+    font-size: 12px;
+}
     .topline { color:var(--dim); font-size:11px; letter-spacing:1px; text-transform:uppercase; }
     h1 { margin:12px 0 4px; color:var(--cyan); font-size:clamp(24px, 6vw, 38px); font-weight:normal; letter-spacing:-2px; }
     .subtitle { color:var(--dim); margin:0; }
@@ -40,32 +60,67 @@
       .post-images { grid-template-columns:repeat(2, minmax(0, 1fr)); max-width:100%; }
       .post-images img:only-child { aspect-ratio:16/10; }
     }
-/* RANDOM DECORATIONS */
-body {
-    position: relative;
-}
-
-.decor-layer {
+.header-art {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1;
-    pointer-events: none;
+    top: 20px;
+    right: 20px;
+    width: 44%;
+    height: 190px;
+    border: 1px solid var(--line);
+    background: #050505;
     overflow: hidden;
 }
 
-.random-decor {
-    position: absolute;
-    display: block;
+.header-art img {
+    width: 100%;
+    height: 100%;
     object-fit: contain;
-    opacity: 0.9;
-    pointer-events: none;
+    display: block;
 }
 
-.wrap {
-    position: relative;
-    z-index: 2;
+.header-art-text {
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    width: 100%;
+    color: red;
+    font-family: "Times New Roman", serif !important;
+    font-size: 13px;
+    letter-spacing: 5px;
+    text-align: center;
+    white-space: nowrap;
+    text-transform: uppercase;
+    animation: redblink 0.7s steps(2, start) infinite;
+    text-shadow: 0 0 5px red;
+}
+
+@keyframes redblink {
+    50% { opacity: 0; }
+}
+
+@media(max-width:520px) {
+    header {
+        min-height: 245px;
+    }
+
+    .header-art {
+        width: 43%;
+        height: 145px;
+        right: 14px;
+        top: 18px;
+    }
+
+    .header-art-text {
+        font-size: 9px;
+        letter-spacing: 2px;
+    }
+
+    nav {
+        left: 18px;
+        right: 18px;
+        gap: 12px;
+    }
+}
 }
   </style>
 </head>
@@ -73,16 +128,20 @@ body {
   <div class="decor-layer" id="decor"></div>
   <main class="wrap">
     <header>
-      <div class="TITLE">
-    <h1>RAPEMIKU<span class="blink">_</span></h1>
-      </div>
-      <p class="subtitle">  </p>
-      <nav>
-        <a href="#about">[ about ]</a>
-        <a href="#diary">[ PORN ]</a>
-        <a href="mailto:">[ contact ]</a>
-      </nav>
-    </header>
+    <div class="TITLE">
+        <h1>RAPEMIKU<span class="blink">_</span></h1>
+    </div>
+
+    <!-- IMAGE PANEL -->
+    <div class="header-art">
+        <img src="images/header.gif" alt="">
+
+        <div class="header-art-text">
+            APPARENTLY AI GENERATED LAAAWL
+        </div>
+    </div>
+
+    <p class="subtitle">  </p>
 
     <h2 class="section-title" id="about">01 / IMPORTANT </h2>
     <p class="intro"> WIP 141126</p>
