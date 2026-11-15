@@ -40,12 +40,17 @@
       .post-images { grid-template-columns:repeat(2, minmax(0, 1fr)); max-width:100%; }
       .post-images img:only-child { aspect-ratio:16/10; }
     }
-/*.decor-layer {
+/* RANDOM DECORATIONS */
+body {
+    position: relative;
+}
+
+.decor-layer {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 5;
+    z-index: 1;
     pointer-events: none;
     overflow: hidden;
 }
@@ -56,6 +61,11 @@
     object-fit: contain;
     opacity: 0.9;
     pointer-events: none;
+}
+
+.wrap {
+    position: relative;
+    z-index: 2;
 }
   </style>
 </head>
