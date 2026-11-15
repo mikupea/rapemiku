@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <title>RAPEMIKU / ADMIN</title>
+  <style>
+    :root { --bg:#000; --fg:#d8faff; --cyan:#00e5ff; --dim:#6b9ba2; --line:#16434a; }
+    * { box-sizing:border-box; font-family:Arial, Helvetica, sans-serif !important; }
+    body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.8 Arial, Helvetica, sans-serif; }
+    a { color:var(--cyan); text-decoration:none; } a:hover { text-decoration:underline; }
+    .wrap { width:min(680px, calc(100% - 32px)); margin:42px auto 70px; }
+    header { border-bottom:1px solid var(--line); padding-bottom:16px; margin-bottom:24px; }
+    .tag { color:var(--dim); font-size:11px; letter-spacing:1px; text-transform:uppercase; }
+    h1 { color:var(--cyan); font-size:26px; font-weight:normal; margin:8px 0 0; }
+    .panel { border:1px solid var(--line); padding:18px; margin:14px 0; }
+    h2 { color:var(--cyan); font-size:12px; font-weight:normal; letter-spacing:2px; margin:0 0 14px; }
+    label { display:block; color:var(--dim); font-size:12px; margin:12px 0 5px; }
+    input, textarea { width:100%; background:#050b0c; color:var(--fg); border:1px solid var(--line); border-radius:0; padding:11px; font:14px Arial, Helvetica, sans-serif; outline:none; }
+    input:focus, textarea:focus { border-color:var(--cyan); }
+    input[type=file] { padding:9px; }
+    textarea { min-height:150px; resize:vertical; }
+    button { background:transparent; color:var(--cyan); border:1px solid var(--cyan); padding:9px 14px; margin-top:12px; font:12px Arial, Helvetica, sans-serif; cursor:pointer; }
+    button:hover, .sticker-btn.selected { background:var(--cyan); color:#000; }
+    button:disabled { opacity:.45; cursor:wait; }
+    button.danger { border-color:#58777b; color:#9bbec2; margin:0; }
+    .row { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+    .post { border-top:1px dashed var(--line); padding:13px 0; }
+    .date { color:var(--dim); font-size:11px; }
+    .content { white-space:pre-wrap; overflow-wrap:anywhere; margin:7px 0 10px; }
+    .status { color:var(--dim); font-size:12px; min-height:20px; margin-top:10px; }
+    .hidden { display:none !important; }
+    .hint { color:var(--dim); font-size:11px; margin:5px 0; }
+    .sticker-picker { display:flex; flex-wrap:wrap; gap:8px; }
+    .sticker-btn { margin:0; padding:5px; width:76px; height:76px; border:1px solid var(--line); display:grid; place-items:center; }
+    .sticker-btn img { display:block; max-width:100%; max-height:100%; object-fit:contain; }
+    .sticker-btn.selected { outline:2px solid var(--cyan); outline-offset:2px; }
+    .sticker-empty { color:var(--dim); font-size:12px; border:1px dashed var(--line); padding:12px; width:100%; }
+    .sticker-upload-row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+    .sticker-upload-row input { flex:1; min-width:180px; }
+    .selected-stickers { min-height:30px; display:flex; flex-wrap:wrap; gap:8px; margin-top:9px; }
+    .selected-stickers img { width:42px; height:42px; object-fit:contain; }
+    .content .inline-sticker { display:inline-block; width:auto; height:1.8em; max-width:3em; object-fit:contain; vertical-align:middle; margin:0 .12em; }
+    .preview-grid, .admin-images { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+    .preview-item { position:relative; width:88px; height:88px; border:1px solid var(--line); }
+    .preview-item img, .admin-images img { width:100%; height:100%; object-fit:cover; display:block; }
+    .preview-item button { position:absolute; top:3px; right:3px; margin:0; padding:2px 6px; background:#000; }
+    .selected-stickers { min-height:30px; display:flex; flex-wrap:wrap; gap:8px; margin-top:9px; font-size:23px; }
+    .post-media { display:flex; gap:12px; align-items:flex-start; margin:8px 0; }
+    .post-media .admin-images { margin:0; }
+    .post-media .admin-images img { width:76px; height:76px; }
+    footer { color:var(--dim); font-size:11px; text-align:center; margin-top:30px; }
+    @media(max-width:520px) { .wrap { margin-top:24px; } .panel { padding:14px; } .row { align-items:flex-start; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <h1>ADMIN</h1>
+      <div class="tag"><a href="./">← back to public page</a></div>
+    </header>
+
+    <section class="panel" id="loginPanel">
+      <h2>01 / sign in</h2>
+      <form id="loginForm">
+        <label for="email">email</label>
+        <input id="email" type="email" autocomplete="username" required>
+        <label for="password">password</label>
+        <input id="password" type="password" autocomplete="current-password" required>
+        <button type="submit">[ enter ]</button>
+      </form>
+      <div class="status" id="loginStatus"></div>
+    </section>
+
+    <section id="dashboard" class="hidden">
+      <section class="panel">
+        <div class="row"><h2>02 / new entry</h2><button id="logoutBtn" type="button">[ log out ]</button></div>
+        <form id="postForm">
+          <label for="postContent">SCHIZOPOST HERE</label>
+          <textarea id="postContent" maxlength="10000" required placeholder="It is your god-given, constitutionally protected, 1st amendment right to say the N-word regardless of your race, gender, religion, or sexual orientation. O algo"></textarea>
+
+          <label for="postImages">attach images</label>
+          <input id="postImages" type="file" accept="image/jpeg,image/png,image/gif,image/webp,image/avif" multiple>
+          <div class="hint">maximum 8 MB each</div>
+          <div id="imagePreview" class="preview-grid"></div>
+
+          <label for="stickerFiles">stickers (PNG or GIF)</label>
+          <div class="sticker-upload-row">
+            <input id="stickerFiles" type="file" accept="image/png,image/gif" multiple>
+            <button id="uploadStickersBtn" type="button">upload stickers</button>
+          </div>
+          <div class="hint">maximum 2 MB each</div>
+          <label>sticker library / tap to insert at cursor</label>
+          <div id="stickerPicker" class="sticker-picker"><div class="sticker-empty">loading your stickers...</div></div>
+          <div class="hint">Put your cursor in the writing box, then tap a sticker to insert it inline. Stickers appear small beside your text.</div>
+          <div id="selectedStickers" class="selected-stickers"></div>
+
+          <button id="publishBtn" type="submit">publish entry</button>
+        </form>
+        <div class="status" id="postStatus"></div>
+      </section>
+      <section class="panel">
+        <h2>03 / manage entries</h2>
+        <div id="adminPosts" class="status">loading entries...</div>
+      </section>
+    </section>
+    <footer>do you feel like davis for using proton mail nigga</footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://fzqlpvawcgzodvonjdvq.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_Q6OhC25LmWnbHc3VJ5ZCHg_r5uRmHfV";
+    const STORAGE_BUCKET = "post-media";
+    const STICKER_BUCKET = "blog-stickers";
+    const MAX_IMAGES = 5;
+    const MAX_FILE_SIZE = 8 * 1024 * 1024;
+    const ALLOWED_IMAGE_TYPES = ['image/jpeg','image/png','image/gif','image/webp','image/avif'];
+    const MAX_STICKER_SIZE = 2 * 1024 * 1024;
+    const ALLOWED_STICKER_TYPES = ['image/png','image/gif'];
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    let currentUser = null;
+    let selectedFiles = [];
+    let selectedStickers = [];
+    let stickerLibrary = [];
+    let lastEditorValue = '';
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, ch => ({
+        '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+      }[ch]));
+    }
+    function formatDate(value) {
+      return new Date(value).toLocaleString(undefined, {
+        year:'numeric', month:'short', day:'2-digit',
+        hour:'2-digit', minute:'2-digit'
+      });
+    }
+    function showDashboard(user) {
+      currentUser = user;
+      document.getElementById('loginPanel').classList.add('hidden');
+      document.getElementById('dashboard').classList.remove('hidden');
+      loadAdminPosts();
+      loadStickerLibrary();
+    }
+    function showLogin() {
+      currentUser = null;
+      document.getElementById('dashboard').classList.add('hidden');
+      document.getElementById('loginPanel').classList.remove('hidden');
+    }
+    const STICKER_MARKER = '\uFFFC';
+
+    function renderStickerPicker() {
+      const picker = document.getElementById('stickerPicker');
+      if (!stickerLibrary.length) {
+        picker.innerHTML = '<div class="sticker-empty">Your sticker library is empty. Upload some PNGs or GIFs above.</div>';
+        return;
+      }
+      picker.innerHTML = stickerLibrary.map((sticker, i) =>
+        `<button class="sticker-btn" type="button" data-sticker="${i}" aria-label="Insert sticker ${i+1}"><img src="${escapeHTML(sticker.url)}" alt="Your sticker"></button>`
+      ).join('');
+      picker.querySelectorAll('[data-sticker]').forEach(button => {
+        button.addEventListener('click', () => {
+          insertStickerAtCursor(stickerLibrary[Number(button.dataset.sticker)].url);
+        });
+      });
+    }
+
+    function insertStickerAtCursor(url) {
+      const textarea = document.getElementById('postContent');
+      const start = textarea.selectionStart ?? textarea.value.length;
+      const end = textarea.selectionEnd ?? start;
+      const marker = STICKER_MARKER;
+      const before = textarea.value.slice(0, start);
+      const after = textarea.value.slice(end);
+
+      const stickerIndex = (before.match(/\uFFFC/g) || []).length;
+      selectedStickers.splice(stickerIndex, 0, url);
+      textarea.value = before + marker + after;
+      lastEditorValue = textarea.value;
+      const nextPosition = start + marker.length;
+      textarea.focus();
+      textarea.setSelectionRange(nextPosition, nextPosition);
+      renderSelectedStickers();
+    }
+
+    function renderSelectedStickers() {
+      const target = document.getElementById('selectedStickers');
+      target.innerHTML = selectedStickers.map(url => `<img src="${escapeHTML(url)}" alt="Inserted sticker preview">`).join('');
+    }
+
+    async function loadStickerLibrary() {
+      const picker = document.getElementById('stickerPicker');
+      picker.innerHTML = '<div class="sticker-empty">loading your stickers...</div>';
+      const { data, error } = await db.storage.from(STICKER_BUCKET).list(currentUser.id, {
+        limit:100, sortBy:{ column:'name', order:'asc' }
+      });
+      if (error) {
+        picker.innerHTML = `<div class="sticker-empty">Could not load sticker library: ${escapeHTML(error.message)}. Run the updated setup.sql first.</div>`;
+        return;
+      }
+      stickerLibrary = (data || []).filter(item => item.name && !item.name.startsWith('.')).map(item => {
+        const { data: publicData } = db.storage.from(STICKER_BUCKET).getPublicUrl(`${currentUser.id}/${item.name}`);
+        return { name:item.name, url:publicData.publicUrl };
+      });
+      renderStickerPicker();
+    }
+    async function uploadStickerFiles() {
+      const input = document.getElementById('stickerFiles');
+      const files = Array.from(input.files || []);
+      const status = document.getElementById('postStatus');
+      if (!files.length) { status.textContent = 'choose one or more PNG/GIF files first.'; return; }
+      const invalid = files.find(file => !ALLOWED_STICKER_TYPES.includes(file.type) || file.size > MAX_STICKER_SIZE);
+      if (invalid) {
+        status.textContent = 'Stickers must be PNG or GIF files, 2 MB or smaller.';
+        return;
+      }
+      const button = document.getElementById('uploadStickersBtn');
+      button.disabled = true;
+      status.textContent = 'uploading stickers...';
+      try {
+        for (const file of files) {
+          const safeName = file.name.toLowerCase().replace(/[^a-z0-9._-]/g, '-');
+          const path = `${currentUser.id}/${crypto.randomUUID()}-${safeName}`;
+          const { error } = await db.storage.from(STICKER_BUCKET).upload(path, file, {
+            cacheControl:'3600', upsert:false, contentType:file.type
+          });
+          if (error) throw error;
+        }
+        input.value = '';
+        await loadStickerLibrary();
+        status.textContent = 'stickers added to your library.';
+      } catch (error) {
+        status.textContent = 'sticker upload failed: ' + (error.message || 'unknown error');
+      } finally {
+        button.disabled = false;
+      }
+    }
+    document.getElementById('uploadStickersBtn').addEventListener('click', uploadStickerFiles);
+
+    function renderImagePreviews() {
+      const target = document.getElementById('imagePreview');
+      target.innerHTML = '';
+      selectedFiles.forEach((file, index) => {
+        const item = document.createElement('div');
+        item.className = 'preview-item';
+        const img = document.createElement('img');
+        img.alt = 'Image preview';
+        img.src = URL.createObjectURL(file);
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.textContent = '×';
+        remove.setAttribute('aria-label', 'Remove image');
+        remove.addEventListener('click', () => {
+          URL.revokeObjectURL(img.src);
+          selectedFiles.splice(index, 1);
+          document.getElementById('postImages').value = '';
+          renderImagePreviews();
+        });
+        item.append(img, remove);
+        target.appendChild(item);
+      });
+    }
+    document.getElementById('postContent').addEventListener('input', event => {
+      const nextValue = event.target.value;
+      const previousValue = lastEditorValue;
+      let prefix = 0;
+      while (prefix < previousValue.length && prefix < nextValue.length &&
+             previousValue[prefix] === nextValue[prefix]) prefix++;
+      let suffix = 0;
+      while (suffix < previousValue.length - prefix &&
+             suffix < nextValue.length - prefix &&
+             previousValue[previousValue.length - 1 - suffix] === nextValue[nextValue.length - 1 - suffix]) suffix++;
+      const removedText = previousValue.slice(prefix, previousValue.length - suffix);
+      const markerIndex = (previousValue.slice(0, prefix).match(/\uFFFC/g) || []).length;
+      const removedMarkers = (removedText.match(/\uFFFC/g) || []).length;
+      if (removedMarkers) {
+        selectedStickers.splice(markerIndex, removedMarkers);
+        renderSelectedStickers();
+      }
+      lastEditorValue = nextValue;
+    });
+
+    document.getElementById('postImages').addEventListener('change', event => {
+      const files = Array.from(event.target.files || []);
+      if (files.length + selectedFiles.length > MAX_IMAGES) {
+        alert('You can attach up to 5 images per entry.');
+        event.target.value = '';
+        return;
+      }
+      const tooLarge = files.find(file => file.size > MAX_FILE_SIZE);
+      if (tooLarge) {
+        alert('Each image must be 8 MB or smaller.');
+        event.target.value = '';
+        return;
+      }
+      const notImage = files.find(file => !ALLOWED_IMAGE_TYPES.includes(file.type));
+      if (notImage) {
+        alert('Use JPG, PNG, GIF, WEBP or AVIF images.');
+        event.target.value = '';
+        return;
+      }
+      selectedFiles.push(...files);
+      event.target.value = '';
+      renderImagePreviews();
+    });
+
+    async function uploadImages(files) {
+      const urls = [];
+      const uploadedPaths = [];
+      for (const file of files) {
+        const safeName = file.name.toLowerCase().replace(/[^a-z0-9._-]/g, '-');
+        const path = `${currentUser.id}/${crypto.randomUUID()}-${safeName}`;
+        const { error: uploadError } = await db.storage.from(STORAGE_BUCKET).upload(path, file, {
+          cacheControl:'3600', upsert:false, contentType:file.type
+        });
+        if (uploadError) {
+          if (uploadedPaths.length) await db.storage.from(STORAGE_BUCKET).remove(uploadedPaths);
+          throw uploadError;
+        }
+        uploadedPaths.push(path);
+        const { data } = db.storage.from(STORAGE_BUCKET).getPublicUrl(path);
+        urls.push(data.publicUrl);
+      }
+      return { urls, uploadedPaths };
+    }
+
+    function renderContentWithStickers(content, stickers) {
+      const parts = String(content || '').split(STICKER_MARKER);
+      let html = '';
+      parts.forEach((part, index) => {
+        html += escapeHTML(part);
+        if (index < parts.length - 1) {
+          const url = stickers[index];
+          if (url && /^https?:\/\//i.test(url)) {
+            html += `<img class="inline-sticker" src="${escapeHTML(url)}" alt="Sticker">`;
+          }
+        }
+      });
+      return html;
+    }
+
+    async function loadAdminPosts() {
+      const target = document.getElementById('adminPosts');
+      const { data, error } = await db.from('posts')
+        .select('id, content, image_urls, stickers, created_at')
+        .order('created_at', { ascending:false });
+      if (error) { target.textContent = 'could not load entries: ' + error.message; return; }
+      if (!data || !data.length) { target.textContent = 'no entries yet.'; return; }
+      target.innerHTML = data.map(post => {
+        const images = Array.isArray(post.image_urls) ? post.image_urls : [];
+        const stickers = Array.isArray(post.stickers) ? post.stickers : [];
+        return `
+          <article class="post">
+            <div class="date">// ${escapeHTML(formatDate(post.created_at))}</div>
+            <div class="content">${renderContentWithStickers(post.content, stickers)}</div>
+            ${!String(post.content || '').includes(STICKER_MARKER) && stickers.length ? `<div class="selected-stickers">${stickers.map(item => String(item).startsWith('http') ? `<img src="${escapeHTML(item)}" alt="Sticker">` : escapeHTML(item)).join('')}</div>` : ''}
+            ${images.length ? `<div class="admin-images">${images.map(url => `<img src="${escapeHTML(url)}" alt="Attached image" loading="lazy">`).join('')}</div>` : ''}
+            <button class="danger" data-delete="${escapeHTML(post.id)}" type="button">[ delete ]</button>
+          </article>`;
+      }).join('');
+      target.querySelectorAll('[data-delete]').forEach(button => {
+        button.addEventListener('click', async () => {
+          if (!confirm('Delete this entry permanently?')) return;
+          button.disabled = true;
+          const post = data.find(item => String(item.id) === button.dataset.delete);
+          const { error: deleteError } = await db.from('posts').delete().eq('id', button.dataset.delete);
+          if (deleteError) { alert('Delete failed: ' + deleteError.message); button.disabled = false; return; }
+          const urls = Array.isArray(post?.image_urls) ? post.image_urls : [];
+          const paths = urls.map(url => {
+            const marker = `/storage/v1/object/public/${STORAGE_BUCKET}/`;
+            const at = url.indexOf(marker);
+            return at >= 0 ? decodeURIComponent(url.slice(at + marker.length)) : null;
+          }).filter(Boolean);
+          if (paths.length) {
+            const { error: storageError } = await db.storage.from(STORAGE_BUCKET).remove(paths);
+            if (storageError) console.warn('Post deleted, but some image files could not be removed:', storageError);
+          }
+          loadAdminPosts();
+        });
+      });
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async event => {
+      event.preventDefault();
+      const status = document.getElementById('loginStatus');
+      status.textContent = 'signing in...';
+      const { data, error } = await db.auth.signInWithPassword({
+        email:document.getElementById('email').value.trim(),
+        password:document.getElementById('password').value
+      });
+      if (error) { status.textContent = 'sign in failed: ' + error.message; return; }
+      status.textContent = '';
+      showDashboard(data.user);
+    });
+
+    document.getElementById('postForm').addEventListener('submit', async event => {
+      event.preventDefault();
+      if (!currentUser) return;
+      const status = document.getElementById('postStatus');
+      const rawContent = document.getElementById('postContent').value;
+      const content = rawContent.trim();
+      if (!content) return;
+      const markerCount = (rawContent.match(/\uFFFC/g) || []).length;
+      const stickersForPost = selectedStickers.slice(0, markerCount);
+      const publishBtn = document.getElementById('publishBtn');
+      publishBtn.disabled = true;
+      status.textContent = 'uploading images and publishing...';
+      let uploadedPaths = [];
+      try {
+        const uploaded = await uploadImages(selectedFiles);
+        uploadedPaths = uploaded.uploadedPaths;
+        const { error } = await db.from('posts').insert({
+          owner_id:currentUser.id,
+          content,
+          image_urls:uploaded.urls,
+          stickers:stickersForPost
+        });
+        if (error) throw error;
+        document.getElementById('postContent').value = '';
+        lastEditorValue = '';
+        selectedFiles = [];
+        selectedStickers = [];
+        document.getElementById('imagePreview').innerHTML = '';
+        document.getElementById('postImages').value = '';
+        renderStickerPicker();
+        renderSelectedStickers();
+        status.textContent = 'entry published.';
+        await loadAdminPosts();
+      } catch (error) {
+        if (uploadedPaths.length) await db.storage.from(STORAGE_BUCKET).remove(uploadedPaths);
+        status.textContent = 'publish failed: ' + (error.message || 'unknown error');
+      } finally {
+        publishBtn.disabled = false;
+      }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await db.auth.signOut();
+      showLogin();
+    });
+
+    db.auth.getSession().then(({ data }) => {
+      if (data.session) showDashboard(data.session.user);
+    });
+    db.auth.onAuthStateChange((_event, session) => {
+      if (session && !currentUser) showDashboard(session.user);
+      if (!session && currentUser) showLogin();
+    });
+  </script>
+</body>
+</html>
