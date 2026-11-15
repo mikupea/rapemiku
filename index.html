@@ -134,7 +134,7 @@ nav {
 
     <!-- IMAGE PANEL -->
     <div class="header-art">
-        <img src="images/header.gif" alt="">
+        <img src="UMK.png" alt="">
 
         <div class="header-art-text">
             APPARENTLY AI GENERATED LAAAWL
@@ -221,100 +221,6 @@ nav {
           </article>`;
       }).join('');
     }
-const decorImages = [
-    "UMK.png",
-    "Jcoro.gif",
-    "XX.webp",
-    "TTT.gif",
-    "PG.gif",
-    "MIKU1.png",
-    "UNS.png"
-];
-
-function placeDecorations() {
-    const layer = document.getElementById("decor");
-    if (!layer) return;
-
-    layer.innerHTML = "";
-
-    const pageHeight = document.documentElement.scrollHeight;
-    const pageWidth = document.documentElement.clientWidth;
-
-    layer.style.height = pageHeight + "px";
-
-    // Protect all text and important content
-    const protectedElements = document.querySelectorAll(
-        "h1, nav, .section-title, .intro, .date, .content, footer, .empty, .subtitle"
-    );
-
-    const protectedAreas = [...protectedElements].map(el => {
-        const r = el.getBoundingClientRect();
-
-        return {
-            left: r.left - 12,
-            right: r.right + 12,
-            top: r.top + window.scrollY - 12,
-            bottom: r.bottom + window.scrollY + 12
-        };
-    });
-
-    // Shuffle filenames so every image is used at most once
-    const shuffled = [...decorImages].sort(() => Math.random() - 0.5);
-
-    const placed = [];
-
-    shuffled.forEach(src => {
-        const img = document.createElement("img");
-        img.src = src;
-        img.className = "random-decor";
-        img.alt = "";
-
-        const size = 35 + Math.random() * 45;
-
-        img.style.width = size + "px";
-        img.style.height = size + "px";
-
-        let found = false;
-
-        // Try random positions until a safe empty spot is found
-        for (let attempt = 0; attempt < 150; attempt++) {
-            const x = Math.random() * Math.max(0, pageWidth - size);
-            const y = Math.random() * Math.max(0, pageHeight - size);
-
-            const area = {
-                left: x,
-                right: x + size,
-                top: y,
-                bottom: y + size
-            };
-
-            const overlaps = rect => (
-                area.left < rect.right &&
-                area.right > rect.left &&
-                area.top < rect.bottom &&
-                area.bottom > rect.top
-            );
-
-            if (
-                !protectedAreas.some(overlaps) &&
-                !placed.some(overlaps)
-            ) {
-                img.style.left = x + "px";
-                img.style.top = y + "px";
-                img.style.transform =
-                    `rotate(${Math.random() * 30 - 15}deg)`;
-
-                layer.appendChild(img);
-                placed.push(area);
-                found = true;
-                break;
-            }
-        }
-
-        if (!found) img.remove();
-    });
-}
-
 loadPosts().then(() => {
     placeDecorations();
 });
