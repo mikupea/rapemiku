@@ -136,12 +136,7 @@ h1 .blink {
         right: 18px;
         gap: 12px;
     }
-
-
-
-
-    /* Scattered header image collage: absolute positioning keeps images
-       out of document flow, so they do not push the page downward. */
+  
     header {
       position: relative;
       min-height: 315px;
@@ -181,9 +176,6 @@ h1 .blink {
       border: 0;
       filter: drop-shadow(0 0 5px #00e5ff30);
     }
-
-    /* LOSER is deliberately larger and above the other stickers,
-       while remaining underneath the title and red caption. */
     .collage-two {
       width: 55%;
       max-width: none;
@@ -251,6 +243,139 @@ h1 .blink {
     }
 
   </style>
+  <style>
+/* OLD COMPUTER ABOUT WINDOW */
+.about-laptop {
+    position: absolute;
+    left: 1%;
+    top: 5px;
+    width: 53%;
+    height: 185px;
+
+    background: #182528;
+    border: 2px solid #64858a;
+    box-shadow:
+        inset 2px 2px #9bb4b5,
+        inset -2px -2px #263b3e,
+        3px 4px 0 #000;
+
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 4px;
+    overflow: hidden;
+    color: #b5d1ce;
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+/* TOP BAR */
+.laptop-titlebar {
+    height: 19px;
+    min-height: 19px;
+    background: #416c70;
+    color: #d7faff;
+    font-size: 9px;
+    font-weight: bold;
+    padding: 1px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    letter-spacing: .5px;
+}
+
+.laptop-controls {
+    display: flex;
+    gap: 3px;
+}
+
+.laptop-controls span {
+    width: 13px;
+    height: 13px;
+    background: #a5b9b4;
+    color: #172527;
+    text-align: center;
+    line-height: 13px;
+    font-size: 9px;
+    border: 1px solid #d0e0dc;
+}
+
+/* MENU */
+.laptop-menu {
+    font-size: 8px;
+    color: #8caeac;
+    padding: 3px 4px;
+    border-bottom: 1px solid #46676a;
+    letter-spacing: .5px;
+}
+
+/* SCROLLABLE SCREEN */
+.laptop-screen {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #080f11;
+    border: 1px solid #39575a;
+    padding: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: #52777a #111b1d;
+}
+
+.laptop-screen::-webkit-scrollbar {
+    width: 6px;
+}
+
+.laptop-screen::-webkit-scrollbar-track {
+    background: #111b1d;
+}
+
+.laptop-screen::-webkit-scrollbar-thumb {
+    background: #52777a;
+}
+
+.laptop-content {
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 9px;
+    line-height: 1.6;
+    color: #a9c4c2;
+    overflow-wrap: anywhere;
+}
+
+.laptop-content h3 {
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 10px;
+    color: #00d9e9;
+    letter-spacing: 1px;
+    margin: 0 0 9px;
+}
+
+.laptop-content p {
+    margin: 0 0 12px;
+}
+
+/* BOTTOM STATUS BAR */
+.laptop-status {
+    height: 15px;
+    min-height: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 7px;
+    color: #719b9c;
+    padding: 2px 4px;
+    letter-spacing: .5px;
+}
+
+/* MOBILE */
+@media (max-width: 520px) {
+    .about-laptop {
+        width: 53%;
+        height: 185px;
+        left: 1%;
+        top: 5px;
+    }
+}
+</style>
 </head>
 <body>
   <main class="wrap">
@@ -260,6 +385,55 @@ h1 .blink {
     </div>
 
     <div class="header-collage" aria-label="image collage">
+      <div class="about-laptop">
+    <div class="laptop-titlebar">
+        <span>ABOUT_ME.txt</span>
+        <div class="laptop-controls">
+            <span>_</span>
+            <span>□</span>
+            <span>×</span>
+        </div>
+    </div>
+
+    <div class="laptop-menu">
+        FILE　 EDIT　 VIEW　 HELP
+    </div>
+
+    <div class="laptop-screen">
+        <div class="laptop-content">
+            <h3>USER PROFILE / 001</h3>
+
+            <p>
+                i have an iq of 180 and obtained 2 PHDs so if you disagree with me youre fucking trolling so fuck you<br> P.S ive plagiarised some ideas from tard.zone because it please my ego
+            </p>
+
+            <p>
+                SHOUT ME OUT <br>
+               SEND ME RAPE THREATS and giftcards ON rapemiku@proton.me<br> 
+            </p>
+
+            <p>
+                INTERESTS<br>
+                not telling
+            </p>
+
+            <p>
+                EXTRA<br>
+               THANK YOU GOD, FOR MAKING ME A JEW. SO YOU BLESS HASHEM, FOR MAKING YOU NOT ONE OF THE NATIONS BUT HE MADE YOU ONE OF THE CHOSEN NATION. THANK YOU FOR NOT MAKING ME GOY, THANK YOU FOR NOT MAKING ME A SLAVE, THANK YOU FOR NOT MAKING ME A RETARD
+            </p>
+
+            <p>
+                <br>
+                you are a faggot
+            </p>
+        </div>
+    </div>
+
+    <div class="laptop-status">
+        <span>● SYSTEM READY</span>
+        <span>MEM: 64KB</span>
+    </div>
+</div>
       <img class="collage-two" src="LOSER.png" alt="">
       <img class="collage-three" src="MIKU1.png" alt="">
       <img class="collage-five" src="DNR.gif" alt="">
